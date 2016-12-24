@@ -21,3 +21,6 @@ It leverages the configs and setup of `nginx.sh` so do that first. then use this
 
 Look at the example app folder for how you should structure your app. You can do whatever you want. as long as its an importable folder/module
 
+## Acknolwedgements
+
+[optparse](https://github.com/nk412/optparse) nk412 - for the easy argument and cli stuff
