@@ -1,0 +1,21 @@
+server {
+    listen 80;
+    server_name _;
+
+    root /srv/www/template/;
+    index index.html;
+
+    error_log /var/log/nginx/template/error.log;
+    access_log /var/log/nginx/template/access.log;
+
+    location ~* \.(html|css|js|png|jpg|jpeg|gif|ico|svg|eot|woff|ttf)$ { 
+       expires max; 
+    }
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+    }
+    location = /.well-known/acme-challenge/ {
+        return 404;
+    }
+    #uwsgi
+}
