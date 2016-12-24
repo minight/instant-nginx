@@ -8,7 +8,7 @@ Lets you instantly create an nginx config for a website. Even if you have nothin
 
 If you use the `-s true` switch, then you'll also do letsencrypt for that domain name.
 
-The script uses certbot-auto from the (letsencrypt repo)[https://github.com/certbot/certbot]
+The script uses certbot-auto from the [letsencrypt repo](https://github.com/certbot/certbot)
 
 ### Uses:
 - Heaps good if you want to instantly create a letsencrypt ssl cert when you have nginx.
