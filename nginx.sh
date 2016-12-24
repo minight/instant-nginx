@@ -5,16 +5,8 @@ source optparse.bash
 optparse.define short=d long=domain desc="Domain name to listen on, '_' for catchall" variable=DOMAIN
 optparse.define short=s long=ssl desc="Do you want a Lets Encrypt SSL Cert" variable=SSL default=false
 source $( optparse.build )
+# ----------------------------------------------------------------
 
-# ASSUMPTIONS:
-# - A standard /etc/nginx installation
-# - A standard nginx/sites-available nginx/sites-enabled configuration
-# - Logging into /var/log/nginx
-# - Webroot in /srv/www
-#   - If its not there. :%s/\/srv\/www/<whatever>/g for the templates and this
-# - a default webdir with the index.html and robots.txt you normally use.
-#   - /srv/www/default/index.html
-#   - /srv/www/default/robots.txt
 if [ "$DOMAIN" == "" ]; then
     usage
     exit 0
