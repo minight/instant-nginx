@@ -1,0 +1,11 @@
+    location /static/ {
+        alias /srv/www/repl_domain/app/static/;
+        expires 30d;
+    }
+
+    location / { try_files $uri @flaskapp; }
+    location @flaskapp {
+        include uwsgi_params;
+        uwsgi_pass unix:/srv/www/repl_domain/app/app.sock;
+    }
+
