@@ -30,7 +30,7 @@ def create_and_chown(path, name):
     chown(path, name)
 
 
-def init_domain(domain):
+def init_domain(domain, ssl=False):
     if not os.path.exists("/etc/nginx/"):
         os.system("apt-get install -y nginx")
 
@@ -107,10 +107,34 @@ def init_domain(domain):
     print("[+] Successfully created nginx stuff for {0}".format(
         domain if domain else 'default'))
 
+    print("[+] Now doing Letsencrypt")
+
+    if ssl:
+        os.system("./certbot-auto certonly --agree-tos --webroot -w /srv/www/{domain}/ -d {domain}".format(domain = domain))
+        nginx_content = open(nginx_config, 'r').read()
+        ssl_template = open('./templates/ssl_snippet').read().replace("template", domain)
+        if '#ssl' in nginx_content:
+            nginx_content = open(nginx_config, 'r').read().replace('#ssl', ssl_template)
+        else:
+            print("[!] Seems please add #ssl into the nginx config where you would like to add the ssl stuff")
+            print("[!] Your file to edit: ", nginx_config)
+            print("[!] Then run this again")
+            exit(-1)
+
+        open(nginx_config, 'w').write(nginx_content)
+
+        if not os.path.exists("/etc/nginx/dhparam.pem"):
+            print("[!] Generating DH Param for better SSL Security. Will take a while")
+            os.system("openssl dhparam -out /etc/nginx/dhparam.pem 4096")
+
+        if os.system("service nginx restart"):
+            print("[!] Oh no. nginx failed to start.")
+            os.system("nginx -t")
+            exit(-1)
 
 if __name__ == "__main__":
     domain = 'default'
-    ssl = None
+    ssl = False
     help_words = ['-h', 'h', 'help', '?']
     if len(sys.argv) > 1:
         if sys.argv[1] in help_words:
@@ -122,4 +146,4 @@ if __name__ == "__main__":
             ssl = sys.argv[2]
 
     os.system("apt-get update")
-    init_domain(domain)
+    init_domain(domain, ssl)
