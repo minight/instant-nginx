@@ -1,0 +1,17 @@
+server {
+    listen 80 default_server;
+    server_name _;
+    #ssl
+
+    root /srv/www/default;
+    index index.html;
+
+    error_log /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+
+    location ~* \.(html|css|js|png|jpg|jpeg|gif|ico|svg|eot|woff|ttf)$ {
+       expires max;
+    }
+
+    #uwsgi
+}
