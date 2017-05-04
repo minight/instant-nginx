@@ -1,5 +1,5 @@
     location /static/ {
-        alias /srv/www/repl_domain/app/static/;
+        alias /srv/www/repl_domain/app/flaskr/static/;
         expires 30d;
     }
 
