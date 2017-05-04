@@ -44,7 +44,7 @@ def init_flask(domain):
     if not os.path.exists(flask_path):
         print("[+] Copying the flask app across")
         shutil.copytree('./app', flask_path)
-        os.system("chown -R www-data:www-data {dir}".format(flask_path))
+        os.system("chown -R www-data:www-data {}".format(flask_path))
 
     # get the venv ready
     venv_path = os.path.join(flask_path, 'env')
