@@ -1,26 +1,31 @@
-# instant-nginx
+# instant-nginx 0.2.0
 
-here's a few tools I made to help me bootstrap nginx faster.
+here's a few tools i made to deploy flask apps really fast
 
-## nginx.sh
+## nginx.py
 
 Lets you instantly create an nginx config for a website. Even if you have nothing installed on the server
 
-If you use the `-s true` switch, then you'll also do letsencrypt for that domain name.
+*USES PYTHON3*
+
+_Usage_
+```
+sudo python3 nginx.py <domain> <ssl>
+  <domain> (optional) - if none, defaults to catchall
+  <ssl> (optional) - true|false - letsencrypt ssl
+
+```
 
 The script uses certbot-auto from the [letsencrypt repo](https://github.com/certbot/certbot)
 
-### Uses:
-- Heaps good if you want to instantly create a letsencrypt ssl cert when you have nginx.
-
-## flask.sh
+## flask.py
 
 I got sick of figuring out how to use uwsgi with flask. So i made a script to make it faster.
 
-It leverages the configs and setup of `nginx.sh` so do that first. then use this on the same domain
+run nginx.py first since you needa a prepared nginx config and a running nginx server
 
-Look at the example app folder for how you should structure your app. You can do whatever you want. as long as its an importable folder/module
+just follow the included template app
 
 ## Acknolwedgements
 
-[optparse](https://github.com/nk412/optparse) nk412 - for the easy argument and cli stuff
+[letsencrypt](https://github.com/certbot/certbot) - Lets encrypt is awesome
