@@ -7,16 +7,19 @@ import pathlib
 import datetime
 import pwd
 
+
 def usage():
     print("""sudo python nginx.py <domain> <ssl>
 <domain> (optional) - if none, defaults to catchall
 <ssl> (optional) - true|false - letsencrypt ssl""")
     exit(0)
 
+
 def chown(f, user):
     gid = pwd.getpwnam(user).pw_gid
     uid = pwd.getpwnam(user).pw_uid
     os.chown(f, uid, gid)
+
 
 def create_and_chown(path, name):
     if not os.path.exists(path):
@@ -58,7 +61,9 @@ def init_domain(domain):
             os.symlink(default_index, domain_index)
             os.symlink(default_robots, domain_robots)
         except Exception as e:
-            print("[!] Probably tried to write over existing symlink for default files. Not doing it\n\t", e)
+            print(
+                "[!] Probably tried to write over existing symlink for default files. Not doing it\n\t",
+                e)
             pass
 
         # check if our log files exist
@@ -72,21 +77,28 @@ def init_domain(domain):
         create_and_chown(access_file, 'www-data')
 
     # Create NGINX Config
-    if not domain: # We want a catchall default route
+    if not domain:  # We want a catchall default route
         config_data = open('./templates/nginx_default').read()
         nginx_config = '/etc/nginx/sites-available/default'
         if os.path.exists(nginx_config):
-            new_name = nginx_config + str(datetime.datetime.now()).replace(' ', '_')
-            print("[!] Found an existing nginx config at {0}. Backing up to {1}".format(nginx_config, new_name))
+            new_name = nginx_config + str(datetime.datetime.now()).replace(' ',
+                                                                           '_')
+            print(
+                "[!] Found an existing nginx config at {0}. Backing up to {1}".
+                format(nginx_config, new_name))
             os.rename(nginx_config, new_name)
 
         open(nginx_config, 'w+').write(config_data)
-    else: # user specified a domain so we'll set that up for them
-        config_data = open('./templates/nginx_domain').read().replace('repl_domain', domain)
+    else:  # user specified a domain so we'll set that up for them
+        config_data = open('./templates/nginx_domain').read().replace(
+            'repl_domain', domain)
         nginx_config = os.path.join('/etc/nginx/sites-available', domain)
         if os.path.exists(nginx_config):
-            new_name = nginx_config + str(datetime.datetime.now()).replace(' ', '_')
-            print("[!] Found an existing nginx config at {0}. Backing up to {1}".format(nginx_config, new_name))
+            new_name = nginx_config + str(datetime.datetime.now()).replace(' ',
+                                                                           '_')
+            print(
+                "[!] Found an existing nginx config at {0}. Backing up to {1}".
+                format(nginx_config, new_name))
             os.rename(nginx_config, new_name)
 
         open(nginx_config, 'w+').write(config_data)
@@ -97,7 +109,9 @@ def init_domain(domain):
         print("[!] Oh no. nginx failed to start. Aborting")
         exit(-1)
 
-    print("[+] Successfully created nginx stuff for {0}".format(domain if domain else 'default'))
+    print("[+] Successfully created nginx stuff for {0}".format(
+        domain if domain else 'default'))
+
 
 if __name__ == "__main__":
     domain = None
@@ -112,8 +126,3 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             ssl = sys.argv[2]
     init_domain(domain)
-
-
-
-
-
