@@ -96,7 +96,7 @@ def init_domain(domain, ssl=False):
 
     nginx_enabled_config = os.path.join('/etc/nginx/sites-enabled', domain)
     if not os.path.exists(nginx_enabled_config):
-        os.symlinK(nginx_config, nginx_enabled_config)
+        os.symlink(nginx_config, nginx_enabled_config)
 
     # Start nginx
     os.system("service nginx start")

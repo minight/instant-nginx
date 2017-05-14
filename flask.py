@@ -49,7 +49,7 @@ def init_flask(domain):
     # get the venv ready
     venv_path = os.path.join(flask_path, 'env')
     if not os.path.exists(venv_path):
-        os.system("virtualenv {venv}".format(venv = venv_path))
+        os.system("virtualenv -p python3 {venv}".format(venv = venv_path))
 
     venv_pip = os.path.join(flask_path, 'env', 'bin/pip3')
     req_file = os.path.join(flask_path, 'requirements.txt')
