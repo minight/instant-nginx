@@ -125,7 +125,7 @@ def init_domain(domain, ssl=False):
 
         if not os.path.exists("/etc/nginx/dhparam.pem"):
             print("[!] Generating DH Param for better SSL Security. Will take a while")
-            os.system("openssl dhparam -out /etc/nginx/dhparam.pem 4096")
+            os.system("openssl dhparam -dsaparam -out /etc/nginx/dhparam.pem 4096")
 
         if os.system("service nginx restart"):
             print("[!] Oh no. nginx failed to start.")
