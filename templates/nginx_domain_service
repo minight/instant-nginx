@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    server_name repl_domain;
+    #ssl
+
+    root /srv/www/repl_domain;
+    index index.html;
+
+    error_log /var/log/nginx/repl_domain/error.log;
+    access_log /var/log/nginx/repl_domain/access.log;
+
+    location ~* \.(html|css|js|png|jpg|jpeg|gif|ico|svg|eot|woff|ttf)$ {
+       expires max;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:repl_port;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
